@@ -14,9 +14,9 @@ npm run dev
 
 Open the Vite URL. Upload a text-based PDF, TXT or Markdown document, ask a question, then select a citation to inspect the source passage. Up to 15 MB / 250,000 characters per file. Scanned PDFs need external OCR.
 
-Without AI credentials, keyword retrieval returns original excerpts, explicitly labeled as source retrieval mode. With `AI_API_KEY`, the backend creates embeddings and uses cosine similarity for semantic search, then asks the configured chat model to answer with numbered references. Credentials remain on the server. Configured providers receive document passages and questions. Do not upload confidential documents without checking your provider's terms.
+Without AI credentials, keyword retrieval returns original excerpts, explicitly labeled as source retrieval mode. With a DeepSeek `AI_API_KEY`, the backend retrieves passages by keyword and asks DeepSeek to answer with numbered references. Uploads also produce an AI summary of the first 10,000 characters. Optional embedding support requires an embedding-compatible provider and an explicit `AI_EMBEDDING_MODEL`; DeepSeek configuration leaves this blank. Credentials remain on the server. Configured providers receive document passages and questions. Do not upload confidential documents without checking your provider's terms.
 
-Documents and embeddings persist in `server/library.json` (ignored by Git). This is a single-user local prototype, bound to localhost. It has no multi-user authentication or production access controls. Documents uploaded before AI configuration need to be re-uploaded to obtain embeddings. The API sends source metadata before the answer through NDJSON; model-generated answer tokens are not streamed individually. There is no automatic topic clustering yet.
+Documents and embeddings persist in `server/library.json` (ignored by Git). This is a single-user local prototype, bound to localhost. It has no multi-user authentication or production access controls. Documents uploaded before AI configuration need to be re-uploaded to obtain embeddings. The API sends source metadata before the answer through NDJSON; model-generated answer tokens are not streamed individually. When embeddings are enabled, documents receive a preliminary similarity group based on their first passage; the UI does not yet arrange documents by those groups.
 
 ```sh
 npm run build
@@ -28,3 +28,4 @@ The production server serves `dist` and `/api` at http://127.0.0.1:3001.
 ## Attribution and license
 
 The original Galaxy renderer and galaxy parameters are adapted from [Cohenjikan/shiyun](https://github.com/Cohenjikan/shiyun), copyright © 2026 Cohenjikan — 诗云 / Poetry Cloud. The original renderer, shaders and bloom presentation are retained; the document interface and retrieval backend are new. This derivative project retains the **PolyForm Noncommercial License 1.0.0** in [LICENSE](LICENSE). It is not an unrestricted commercial-use template.
+
