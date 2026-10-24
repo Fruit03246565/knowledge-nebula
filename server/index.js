@@ -1,11 +1,12 @@
 import express from 'express'
 import multer from 'multer'
-import pdf from 'pdf-parse/lib/pdf-parse.js'
+import {getDocument} from 'pdfjs-dist/legacy/build/pdf.mjs'
 import {readFile,writeFile} from 'node:fs/promises'
 import {randomUUID} from 'node:crypto'
 import path from 'node:path'
 import {fileURLToPath} from 'node:url'
 const dir=path.dirname(fileURLToPath(import.meta.url)), db=path.join(dir,'library.json')
+async function pdf(buffer){const root=path.join(dir,'../node_modules/pdfjs-dist');const task=getDocument({data:new Uint8Array(buffer),cMapUrl:path.join(root,'cmaps')+path.sep,cMapPacked:true,standardFontDataUrl:path.join(root,'standard_fonts')+path.sep,useSystemFonts:true});const doc=await task.promise;try{const pages=[];for(let n=1;n<=doc.numPages;n++){const page=await doc.getPage(n);const content=await page.getTextContent();pages.push(content.items.map(item=>item.str+(item.hasEOL?'\n':'')).join(' '))}return {text:pages.join('\n\n')}}finally{await task.destroy()}}
 const app=express();app.use(express.json({limit:'2mb'}))
 const upload=multer({storage:multer.memoryStorage(),limits:{fileSize:15*1024*1024}})
 let documents=[];try{documents=JSON.parse(await readFile(db,'utf8'))}catch{}
@@ -21,6 +22,7 @@ app.post('/api/ask',async(req,res,next)=>{try{const question=String(req.body.que
 app.use(express.static(path.join(dir,'../dist')))
 app.use((err,req,res,next)=>res.status(500).json({error:err.message}))
 app.listen(Number(process.env.PORT)||3001,'127.0.0.1',()=>console.log('Knowledge Nebula API: http://127.0.0.1:3001'))
+
 
 
 
