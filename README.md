@@ -25,7 +25,3 @@ npm start
 
 The production server serves `dist` and `/api` at http://127.0.0.1:3001.
 
-## Attribution and license
-
-The original Galaxy renderer and galaxy parameters are adapted from [Cohenjikan/shiyun](https://github.com/Cohenjikan/shiyun), copyright © 2026 Cohenjikan — 诗云 / Poetry Cloud. The original renderer, shaders and bloom presentation are retained; the document interface and retrieval backend are new. This derivative project retains the **PolyForm Noncommercial License 1.0.0** in [LICENSE](LICENSE). It is not an unrestricted commercial-use template.
-
