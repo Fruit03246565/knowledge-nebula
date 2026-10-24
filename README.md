@@ -25,3 +25,12 @@ npm start
 
 The production server serves `dist` and `/api` at http://127.0.0.1:3001.
 
+## Attribution and license
+
+The original Galaxy renderer and galaxy parameters are adapted from [Cohenjikan/shiyun](https://github.com/Cohenjikan/shiyun), copyright © 2026 Cohenjikan — 诗云 / Poetry Cloud. The original renderer, shaders and bloom presentation are retained; the document interface and retrieval backend are new. This derivative project retains the **PolyForm Noncommercial License 1.0.0** in [LICENSE](LICENSE). It is not an unrestricted commercial-use template.
+
+
+## Document Research Agent
+
+The Research Agent mode uses DeepSeek tool calling to search_documents, read_passage and compare_documents in a bounded loop (6 rounds, 12 tool calls). Tool arguments and source IDs are validated; tool errors are returned to the model for correction. Only retrieved evidence can be cited, and invalid citation numbers are rejected. Tool execution events are sent as NDJSON and displayed in the UI. Direct RAG remains available. Run tests with: node --test server/agent.test.js. Resume wording is in RESUME.zh.md.
+
